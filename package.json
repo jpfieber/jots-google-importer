@@ -5,7 +5,7 @@
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs && cp manifest.json ./src/styles.css ./dist",
-		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production && cp manifest.json ./src/styles.css ./dist",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production && copy manifest.json dist\\ && copy src\\styles.css dist\\",
 		"version": "node version-bump.mjs && git add manifest.json versions.json"
 	},
 	"keywords": [
@@ -16,18 +16,21 @@
 	"author": "nadim@park5.io",
 	"license": "MIT",
 	"devDependencies": {
+		"@types/electron": "^1.4.38",
 		"@types/node": "^16.11.6",
 		"@typescript-eslint/eslint-plugin": "^5.2.0",
 		"@typescript-eslint/parser": "^5.2.0",
 		"builtin-modules": "^3.2.0",
-		"esbuild": "0.13.12",
+		"esbuild": "^0.25.2",
 		"eslint": "^8.17.0",
-		"obsidian": "latest",
+		"obsidian": "^1.8.7",
 		"tslib": "2.3.1",
-		"typescript": "4.4.4"
+		"typescript": "^5.8.2"
 	},
 	"dependencies": {
 		"@googleapis/calendar": "^1.0.2",
-		"@googleapis/people": "^1.0.3"
+		"@googleapis/gmail": "^12.0.0",
+		"@googleapis/people": "^1.0.3",
+		"axios": "^1.8.4"
 	}
 }

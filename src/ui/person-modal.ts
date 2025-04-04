@@ -64,7 +64,7 @@ export class PersonSuggestModal extends SuggestModal<PersonResult> {
 		const p = new Person(person, this.#options.template, this.#options.newFilenameTemplate);
 		insertIntoEditorRange(this.app, await p.generateFromTemplate(this.app));
 		if (this.#options.renameFile) {
-			await renameFile(app, p.getTitle(), this.#options.moveToFolder);
+			await renameFile(this.app, p.getTitle(), this.#options.moveToFolder);
 		}
 	}
 

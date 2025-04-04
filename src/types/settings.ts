@@ -1,4 +1,6 @@
-export type GoogleLookupPluginSettings = {
+export interface GoogleLookupPluginSettings {
+    emailStorageFolder: string; // New setting for the base folder
+    subfolderStructure: string; // New setting for the subfolder structure
 	client_id: string;
 	client_secret: string;
 	client_redirect_uri_port: string;

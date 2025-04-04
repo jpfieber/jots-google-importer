@@ -3,12 +3,13 @@ import { GoogleCredentials } from '@/types';
 import { OAuth2Client } from 'google-auth-library';
 
 const SCOPES = [
-	'https://www.googleapis.com/auth/contacts.readonly',
-	'https://www.googleapis.com/auth/contacts.other.readonly',
-	'https://www.googleapis.com/auth/directory.readonly',
-	'https://www.googleapis.com/auth/calendar.readonly',
-	'https://www.googleapis.com/auth/calendar.events.readonly',
-	'https://www.googleapis.com/auth/userinfo.profile'
+    'https://www.googleapis.com/auth/contacts.readonly',
+    'https://www.googleapis.com/auth/contacts.other.readonly',
+    'https://www.googleapis.com/auth/directory.readonly',
+    'https://www.googleapis.com/auth/calendar.readonly',
+    'https://www.googleapis.com/auth/calendar.events.readonly',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/gmail.readonly' // Add this scope
 ];
 
 export const getAuthClient = async (credentials: GoogleCredentials, token: string | undefined) => {

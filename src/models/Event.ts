@@ -50,8 +50,7 @@ export class Event {
 		};
 
 		for (const [k, v] of Object.entries(transform)) {
-			templateContents = templateContents.replace(new RegExp(`{{\\s*${k}\\s*}}`, 'gi'), v);
-		}
+			templateContents = templateContents.replace(new RegExp(`{{\\s*${k}\\s*}}`, 'gi'), v ?? '');		}
 		templateContents = templateContents
 			.replace(/{{\s*date\s*}}/gi, now.format('YYYY-MM-DD'))
 			.replace(/{{\s*time\s*}}/gi, now.format('HH:mm'));
