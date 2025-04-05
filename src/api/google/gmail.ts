@@ -27,16 +27,16 @@ export const getGmailService = async ({ credentials, token }: GoogleServiceOptio
 };
 
 /**
- * Fetch the subjects and message IDs of emails with the label "Sent2Obsidian" for the authenticated user.
+ * Fetch the subjects and message IDs of emails with the label "Send2Obsidian" for the authenticated user.
  * @param service - Gmail service instance.
  * @param accountName - The name of the Google account.
- * @returns List of email subjects and message IDs with the label "Sent2Obsidian".
+ * @returns List of email subjects and message IDs with the label "Send2Obsidian".
  */
 export const fetchEmailsWithLabelSubjects = async ({ service, accountName }: GmailQueryOptions): Promise<{ subject: string; messageId: string }[]> => {
     try {
         const response = await service.users.messages.list({
             userId: 'me',
-            q: 'label:Send2Obsidian', // Gmail query to filter emails with the label "Sent2Obsidian"
+            q: 'label:Send2Obsidian', // Gmail query to filter emails with the label "Send2Obsidian"
         });
 
         if (response.status !== 200) {
@@ -64,15 +64,17 @@ export const fetchEmailsWithLabelSubjects = async ({ service, accountName }: Gma
 
                 messages.push({ subject, messageId });
 
-                // Change the label of the email after it is fetched
-            /*    await service.users.messages.modify({
+                // Uncomment and replace label IDs if you want to modify labels after fetching
+                /*
+                await service.users.messages.modify({
                     userId: 'me',
                     id: messageId,
                     requestBody: {
                         addLabelIds: ['Label_Sent2Obsidian'], // Add the new label (replace with your label ID)
                         removeLabelIds: ['Label_Send2Obsidian'], // Remove the old label (replace with your label ID)
-                    }, */
+                    },
                 });
+                */
             } catch (err: any) {
                 console.error(`Failed to fetch or modify message details for ID ${messageId}: ${err.message}`);
             }
@@ -85,6 +87,11 @@ export const fetchEmailsWithLabelSubjects = async ({ service, accountName }: Gma
     }
 };
 
+/**
+ * Fetch the list of Gmail labels for the authenticated user.
+ * @param service - Gmail service instance.
+ * @returns List of Gmail labels with their IDs and names.
+ */
 export const fetchGmailLabels = async (service: gmail_v1.Gmail): Promise<{ id: string; name: string }[]> => {
     try {
         const response = await service.users.labels.list({ userId: 'me' });

@@ -3,7 +3,7 @@ export interface GoogleLookupPluginSettings {
     subfolderStructure: string; // New setting for the subfolder structure
 	client_id: string;
 	client_secret: string;
-	client_redirect_uri_port: string;
+	client_redirect_uri_port: number;
 	template_file_person: string;
 	folder_person: string;
 	person_filename_format: string;

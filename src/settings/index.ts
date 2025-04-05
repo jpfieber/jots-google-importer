@@ -6,7 +6,7 @@ import { AuthModal } from '@/ui/auth-modal';
 import { ConfirmModal } from '@/ui/confirm-modal';
 
 export const DEFAULT_SETTINGS: Partial<GoogleLookupPluginSettings> = {
-    client_redirect_uri_port: '42601',
+    client_redirect_uri_port: 42601,
     folder_person: '',
     rename_person_file: true,
     emailStorageFolder: '_Inbox', // Default folder for storing emails
@@ -25,6 +25,10 @@ type TextInputSettingParams = {
     key: KeysMatching<GoogleLookupPluginSettings, string>;
 } & CommonSettingParams;
 
+type NumberInputSettingParams = {
+    key: KeysMatching<GoogleLookupPluginSettings, number>; // Ensure the key matches a number type
+} & CommonSettingParams;
+
 export class GoogleLookupSettingTab extends PluginSettingTab {
     plugin: GoogleLookupPlugin;
     accountsEl: HTMLElement;
@@ -38,7 +42,6 @@ export class GoogleLookupSettingTab extends PluginSettingTab {
     }
 
     display(): void {
-        console.log('Displaying settings tab...'); // Debugging log
         const { containerEl } = this;
 
         containerEl.empty();
@@ -130,11 +133,10 @@ export class GoogleLookupSettingTab extends PluginSettingTab {
             description: 'Client Secret for your Google API application',
             key: 'client_secret'
         });
-        this.insertTextInputSetting({
-            name: 'Redirect URI port',
-            description:
-                'The port number that this Obsidian plugin will listen to Google authentication redirects on. Do not change this unless you are having issues.',
-            key: 'client_redirect_uri_port'
+        this.insertNumberInputSetting({
+            name: 'Redirect URI Port',
+            description: 'The port number that this plugin will listen to for Google authentication redirects.',
+            key: 'client_redirect_uri_port', // This is now valid for a number input
         });
 
         containerEl.createEl('h3', { text: 'Accounts' });
@@ -190,6 +192,25 @@ export class GoogleLookupSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings();
                     })
                     .setValue(this.plugin.settings![key] || '');
+            });
+    }
+
+    private insertNumberInputSetting({
+        container = this.containerEl,
+        key,
+        name,
+        description,
+    }: NumberInputSettingParams) {
+        new Setting(container)
+            .setName(name)
+            .setDesc(description)
+            .addText((text) => {
+                text.inputEl.type = 'number'; // Set input type to number
+                text.setValue(this.plugin.settings![key]?.toString() || '');
+                text.onChange(async (value) => {
+                    this.plugin.settings![key] = parseInt(value, 10);
+                    await this.plugin.saveSettings();
+                });
             });
     }
 
