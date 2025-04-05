@@ -84,3 +84,14 @@ export const fetchEmailsWithLabelSubjects = async ({ service, accountName }: Gma
         return [];
     }
 };
+
+export const fetchGmailLabels = async (service: gmail_v1.Gmail): Promise<{ id: string; name: string }[]> => {
+    try {
+        const response = await service.users.labels.list({ userId: 'me' });
+        const labels = response.data.labels || [];
+        return labels.map((label) => ({ id: label.id!, name: label.name! })); // Ensure `id` and `name` are not null
+    } catch (err: any) {
+        console.error(`Failed to fetch Gmail labels: ${err.message}`);
+        return [];
+    }
+};
